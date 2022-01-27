@@ -1,6 +1,7 @@
 
 from pathlib import Path
 import os
+import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -13,9 +14,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-muuyo9$9sb&)z9s86#e9c967l^rimae$zi6_(cl%xplcn6j5-a'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -117,12 +118,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 #it let django knows, where our static files are.
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
-    ] 
+    ]
+
+STATIC_ROOT = BASE_DIR / 'staticfiles' 
+
+MEDIA_URL = '/media/' 
+MEDIA_ROOT = BASE_DIR / 'media'     
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -143,4 +149,16 @@ AUTHENTICATION_BACKENDS = [
 SITE_ID = 1
 
 LOGIN_REDIRECT_URL = 'core:item-list'
+#ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS =1
+ACCOUNT_EMAIL_REQUIRED = False
+#ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
+ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 86400 # 1 day in seconds
+ACCOUNT_LOGOUT_REDIRECT_URL ='/accounts/login/'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+RAZOR_KEY_ID = 'rzp_test_sJVs4d4rEnD6SH'
+RAZOR_KEY_SECRET = 'jZxWJ2awx7PXIMk4M46uyLqB'
+
+# Activate Django-Heroku.
+django_heroku.settings(locals())
